@@ -29,22 +29,26 @@ class _NewMessageState extends State<NewMessage> {
       child: Row(
         children: [
           Expanded(
-            child: TextField(
-              controller: _controller,
-              decoration: const InputDecoration(
-                labelText: 'Send your message...'
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 15.0),
+              child: TextField(
+                controller: _controller,
+                decoration: const InputDecoration(
+                  labelText: 'Send your message...',
+                  labelStyle: TextStyle(color: Color(0xFFD7777A)),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _enterMsg = value;
+                  });
+                },
               ),
-              onChanged: (value) {
-                setState(() {
-                  _enterMsg = value;
-                });
-              },
             ),
           ),
           IconButton(
               onPressed: _enterMsg.trim().isEmpty ? null : _sendMsg,
               icon: const Icon(Icons.send),
-              color: Colors.brown,
+              color: const Color(0xFF5F4818),
           ),
         ],
       ),

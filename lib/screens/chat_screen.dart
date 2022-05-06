@@ -41,10 +41,10 @@ class _ChatScreenState extends State<ChatScreen> {
         title: const Text(
             'Chat screen',
           style: TextStyle(
-            color: Colors.orange
+            color: Color(0xFFFFFFFF)
           ),
         ),
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: Color(0xFFD7777A),
         actions: [
           IconButton(
             onPressed: () {
@@ -52,7 +52,7 @@ class _ChatScreenState extends State<ChatScreen> {
           },
             icon: const Icon(
               Icons.exit_to_app_sharp,
-              color: Colors.white,
+              color: Color(0xFF6C1B1C),
             ),
           )
         ],
