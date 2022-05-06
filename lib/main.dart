@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:chat_crud/screens/main_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  await Firebase.initializeApp();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.blue
       ),
-      home: LoginSignupScreen(),
+      home: const LoginSignupScreen(),
     );
   }
 }
