@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:chat_crud/config/palette.dart';
 import 'chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginSignupScreen extends StatefulWidget {
   const LoginSignupScreen({Key? key}) : super(key: key);
@@ -12,9 +13,10 @@ class LoginSignupScreen extends StatefulWidget {
 }
 
 class _LoginSignupScreenState extends State<LoginSignupScreen> {
-  bool isSignupScreen = true;
   final _auth = FirebaseAuth.instance;
   final _formkey = GlobalKey<FormState>();
+
+  bool isSignupScreen = true;
   String userName = '';
   String userEmail = '';
   String userPassword = '';
@@ -427,6 +429,11 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               email: userEmail,
                               password: userPassword
                           );
+                          await FirebaseFirestore.instance.collection('user').doc(newUser.user!.uid)
+                          .set({
+                            'userName' : userName,
+                            'email' : userEmail
+                          });
                           if(newUser.user != null) {
                             Navigator.push(
                                 context,
@@ -440,11 +447,11 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                             print(e);
                           }
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content:
-                                Text('Please check your email and password'),
-                                backgroundColor: Colors.blue,
-                              )
+                            const SnackBar(
+                              content:
+                              Text('Please check your email and password'),
+                              backgroundColor: Colors.blue,
+                            )
                           );
                         }
                       }
@@ -457,12 +464,12 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               password: userPassword
                           );
                           if (newUser.user != null) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return ChatScreen();
-                                })
-                            );
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(builder: (context) {
+                            //       return ChatScreen();
+                            //     })
+                            // );
                           }
                         }
                       } catch(e) {
