@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_crud/config/palette.dart';
 import 'chat_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginSignupScreen extends StatefulWidget {
   const LoginSignupScreen({Key? key}) : super(key: key);
@@ -12,10 +13,12 @@ class LoginSignupScreen extends StatefulWidget {
 
 class _LoginSignupScreenState extends State<LoginSignupScreen> {
   bool isSignupScreen = true;
+  final _auth = FirebaseAuth.instance;
   final _formkey = GlobalKey<FormState>();
   String userName = '';
   String userEmail = '';
   String userPassword = '';
+
   void _tryValidation() {
     final isValid = _formkey.currentState!.validate();
     if (isValid) {
@@ -420,18 +423,18 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                       if(isSignupScreen) {
                         _tryValidation();
                         try {
-                          // final newUser = await _authentication.createUserWithEmailAndPassword(
-                          //     email: userEmail,
-                          //     password: userPassword
-                          // );
-                          // if(newUser.user != null) {
-                          //   Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(builder: (context) {
-                          //         return ChatScreen();
-                          //       })
-                          //   );
-                          // }
+                          final newUser = await _auth.createUserWithEmailAndPassword(
+                              email: userEmail,
+                              password: userPassword
+                          );
+                          if(newUser.user != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return ChatScreen();
+                                })
+                            );
+                          }
                         } catch(e) {
                           if (kDebugMode) {
                             print(e);
@@ -448,19 +451,19 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                       try {
                         if (!isSignupScreen) {
                           _tryValidation();
-                          // final newUser = await _authentication
-                          //     .signInWithEmailAndPassword(
-                          //     email: userEmail,
-                          //     password: userPassword
-                          // );
-                          // if (newUser.user != null) {
-                          //   Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(builder: (context) {
-                          //         return ChatScreen();
-                          //       })
-                          //   );
-                          // }
+                          final newUser = await _auth
+                              .signInWithEmailAndPassword(
+                              email: userEmail,
+                              password: userPassword
+                          );
+                          if (newUser.user != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return ChatScreen();
+                                })
+                            );
+                          }
                         }
                       } catch(e) {
                         if (kDebugMode) {
